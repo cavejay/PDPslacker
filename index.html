@@ -41,11 +41,11 @@
     <nav class="light-blue lighten-1" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">PDP Schedule Updater</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">Repo Link</a></li>
+                <li><a href="https://github.com/cavejay/PDPslacker">Repo Link</a></li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Repo Link</a></li>
+                <li><a href="https://github.com/cavejay/PDPslacker">Repo Link</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
@@ -94,7 +94,9 @@
                         return ch(el).text();
                     }).get();
                 }
-                console.log(doc);
+                
+                // ensure that the doc was read properly
+                if (doc.Monday)
 
                 // save the doc with todays date somewhere
                 // every day at 8am print that day's topics'
