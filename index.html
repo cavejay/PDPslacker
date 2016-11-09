@@ -117,9 +117,7 @@
                         '</li>');
             }
             document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-
-            f = files[0];
-            reader.readAsArrayBuffer(f);  
+            reader.readAsArrayBuffer(files[0]);
         }
 
         function handleDragOver(evt) {
