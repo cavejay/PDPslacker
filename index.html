@@ -94,14 +94,24 @@
                         return ch(el).text();
                     }).get();
                 }
-                
+                console.log(doc);
+
                 // ensure that the doc was read properly
-                if (doc.Monday)
+                for (day in days) { // todo merge these 3 loops together
+                    d = doc[days[day]]; nd = doc.nextWeek[days[day]];
+                    console.log(d);
+                    console.log(nd);
+                    if (d == undefined || d == '') {console.log('Parsing Failure'); return;}
+                    if (nd == undefined || nd == '') {console.log('Parsing Failure'); return;}
+                }
+                console.log('pre post');
 
                 // save the doc with todays date somewhere
-                // every day at 8am print that day's topics'
-            })
-            .done();
+                $.post("https://h3x59il8tl.execute-api.us-west-2.amazonaws.com/prod/", doc).done(function (data) {
+                    console.log("We sent the thing to the people and got this back:");
+                    console.log(data);
+                });
+            }).done();
         }
 
         function handleFileSelect(evt) {
