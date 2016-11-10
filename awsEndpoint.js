@@ -6,14 +6,10 @@ exports.handler = function(event, context) {
     console.log("Request received:\n", JSON.stringify(event));
     console.log("Context received:\n", JSON.stringify(context));
 
+    // do some testing of the payload here
+
     var tableName = "PDPslackerTest";
-    var datetime = new Date().getTime();
-    var item = {
-        "device": event.device, 
-        "date": datetime,
-        "latitude": event.lat,
-        "longitude": event.lon
-    };
+    var item = event
     console.log("Item:\n", item);
 
     dynamodb.putItem({
