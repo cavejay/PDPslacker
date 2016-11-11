@@ -31,5 +31,3 @@ mammoth.convertToHtml({path: "docs/PDP 328 Team Meeting 10-31-16.docx"})
         // every day at 8am print that day's topics'
     })
     .done();
-
-    // https://hooks.slack.com/services/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
