@@ -43,10 +43,20 @@ reader.onload = function () {
         }
 
         // save the doc with todays date somewhere
-        $.post("https://h3x59il8tl.execute-api.us-west-2.amazonaws.com/prod/", doc).done(function (data) {
-            console.log("We sent the thing to the people and got this back:");
-            console.log(data);
-        });
+        $.ajax({
+            url: "https://h3x59il8tl.execute-api.us-west-2.amazonaws.com/prod/",
+            type: "POST",
+            data: JSON.stringify(doc),
+            dataType: "json",
+            success: function (result) {
+                console.log("We sent the thing to the people and got this back:");
+                console.log(result);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
     }).done(); // todo return an error if bad things happen inside mammoth
 }
 
