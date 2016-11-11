@@ -16,7 +16,7 @@ reader.onload = function () {
         ch = cheerio.load(html);
         doc.tip = ch('ul li').first().text();
         mDate = ch('p:contains("Date")').first().text().split(' ')[1];
-        doc.date = new Date(mDate).getTime();
+        doc.date = new Date(mDate).setUTCHours(0);
 
         // Get data for this week
         for (day in days) {
