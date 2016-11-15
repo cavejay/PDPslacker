@@ -11,6 +11,10 @@
 #
 # Happy Coding!
 
+# https://blog.fugue.co/2016-05-05-architecting-a-serverless-web-application-in-aws.html
+# https://serverless.com/framework/docs/providers/aws/guide/services/
+# http://blog.rowanudell.com/using-dyanmodb-with-serverless/
+
 service: PDPslacker # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
@@ -47,8 +51,15 @@ provider:
 #  artifact: my-service-code.zip
 
 functions:
-  hello:
-    handler: handler.hello
+  slackNotifier:
+    handler: slackNotifier/PDPslacker_slackNotifier.handler
+  
+  awsEndpoint:
+    handler: PDPslacker_awsEndpoint.handler
+
+
+  # sharepointGrab:
+  #   handler: sharepointGrab/PDPslacker_sharepointGrab.handler
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
