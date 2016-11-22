@@ -103,7 +103,7 @@ function procSlackRequest (event) {
 exports.handler = function(event, context) {
     //Echo back the text the user typed in
     var input = procSlackRequest(event);
-    if (input.token !== "IITYpVGgQIoin30crRmx8hJQ") {
+    if (input.token !== "IITYpVGgQIoin30crRmx8hJQ") { // need to make this more secure and pull out to a config file
         context.succeed('Invalid Token');
     }
     
