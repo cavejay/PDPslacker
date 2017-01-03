@@ -2,8 +2,12 @@
 
 ## What even is?
 
-This little application semi-automates (with the goal of automating) informing PDP members of their daily tasks by interfacing with their slack channel. 
-It does this by taking a user provided word document that meets a particular formatting, parsing that into html using mammoth and then pulling out relevant information.
+Converts the PDP weekly schedule document into an aesthetically pleasing daily slack message so that everyone knows what's meant to happen that day.
+
+It looks like this: ![](imgs/2017-01-03-18-01-23.png)
+
+It semi-automates (with the goal of automating) the process of informing PDP members of their daily tasks by interfacing with a slack channel. 
+By taking a user provided word document that meets a particular formatting, parsing that into html using mammoth and then pulling out relevant information.
 Information is stored in an AWS dynamodb instance and fetched each day by a lambda function that places a nicely formatted snippet of the current day's tasks in a slack channel. 
 
 Currently this repo only supports a manual setup, and that's outlined in the installations section of this readme. 
@@ -49,7 +53,25 @@ The following is what my GitHub pages settings look like.
 
 3. You'll need to copy the webhook URL as that's what we'll be using later. Name the integation PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo. You've now set up the slack end of the integration. 
 
-4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. Head to [https://aws.amazon.com/api-gateway/](https://aws.amazon.com/api-gateway/) and sign in to your AWS account.
+4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. Head to [https://aws.amazon.com/](https://aws.amazon.com/) and sign in to your AWS account.
+
+
+
+
+
+
+
+
+5. Once logged in you'll need to head to the API Gateway service through the services menu. While Lambda is what we're using to do all the thinking, in order to create an API of sorts we're using API Gateway as an intermediary. The Services menu is kinda confusing, so here's a picture of where to find it. ![](imgs/2017-01-03-12-29-38.png)
+
+6. Create a new API, naming it something sensible like "PDPslacker" and give it a description if you want. Once it's all setup you should end up with an empty screen that looks like the below:
+![](imgs/2017-01-03-12-41-47.png)
+
+API Gateway descretises an API into HTTP methods like GET, PUT and POST. When someone uploads a valid document to the website part of our application it will post the extracted data to an endpoint of our API where we'll capture it and pass it to the appropriate lambda function.
+
+7.  Create a new POST method on the root of the API using the actions drop down menu. You'll need to select the integration type (choose lambda) and also the region the lambda functions will run in. Pick the region closest to you as running it in a different time zone may cause issues later.
+
+8. 
 
 
 
