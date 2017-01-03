@@ -55,23 +55,25 @@ The following is what my GitHub pages settings look like.
 
 4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. Head to [https://aws.amazon.com/](https://aws.amazon.com/) and sign in to your AWS account.
 
-
-
-
-
-
-
-
 5. Once logged in you'll need to head to the API Gateway service through the services menu. While Lambda is what we're using to do all the thinking, in order to create an API of sorts we're using API Gateway as an intermediary. The Services menu is kinda confusing, so here's a picture of where to find it. ![](imgs/2017-01-03-12-29-38.png)
-
-6. Create a new API, naming it something sensible like "PDPslacker" and give it a description if you want. Once it's all setup you should end up with an empty screen that looks like the below:
-![](imgs/2017-01-03-12-41-47.png)
 
 API Gateway descretises an API into HTTP methods like GET, PUT and POST. When someone uploads a valid document to the website part of our application it will post the extracted data to an endpoint of our API where we'll capture it and pass it to the appropriate lambda function.
 
-7.  Create a new POST method on the root of the API using the actions drop down menu. You'll need to select the integration type (choose lambda) and also the region the lambda functions will run in. Pick the region closest to you as running it in a different time zone may cause issues later.
+6. Create a new API, naming it something sensible like "PDPslacker" and give it a description if you want. Once it's all setup you should end up with an empty screen that looks something like this:
+![](imgs/2017-01-03-12-41-47.png)
 
-8. 
+7. Create a new POST method on the root of the API using the actions drop down menu. Once that's done we're going to create a lambda function that links to this API.
+
+8. In a new tab, open the AWS lambda services page. You can find it in the massive services list under the Compute heading. Once it's open create a new lambda function using the "Blank function" blueprint.
+
+9. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
+
+If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. It takes the input, does the processing and can produce an output. All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. It's a cost effective way to run an event driven application such as our Slack integration.
+
+10. 
+
+
+
 
 
 
