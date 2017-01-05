@@ -68,7 +68,7 @@ API Gateway descretises an API into HTTP methods like GET, PUT and POST. When so
 9. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
 If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. It takes the input, does the processing and can produce an output. All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. It's a cost effective way to run an event driven application such as our Slack integration.
 
-10. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-slackNotifier and follow that naming convention for the rest of this guide too, but ddo as you like. Copy the contents of the [/lambda/slackNotifier/PDPslacker_slackNotifier.js][lambda/slackNotifier/PDPslacker_slackNotifier.js] file into the text box for code and have a brief read through it to maybe understand what it does.
+10. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-slackNotifier and follow that naming convention for the rest of this guide too, but ddo as you like. Copy the contents of the [/lambda/slackNotifier/PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file into the text box for code and have a brief read through it to maybe understand what it does.
 
 11. 
 
