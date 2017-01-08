@@ -12,6 +12,8 @@ Information is stored in an AWS dynamodb instance and fetched each day by a lamb
 
 Currently this repo only supports a manual setup, and that's outlined in the installations section of this readme. 
 
+**NOTE** While everything in this guide should fall under AWS's free tier you _may_ be charged a small amount. But that's okay because if you're reading this you're probably Dynatrace now! _insert gif of dollar notes falling here_
+
 ## Future Features
 
 - Make this a single step installation (if at all possible) using the serverless framework. Anybody is free to submit pull requests to this end, and it would be awesome if you could. All current progress towards this end has been made in the `sls` branch of this repo and mainly comprises of a `serverless.yaml` file
@@ -63,14 +65,26 @@ API Gateway descretises an API into HTTP methods like GET, PUT and POST. When so
 
 7. Create a new POST method on the root of the API using the actions drop down menu. Once that's done we're going to create a lambda function that links to this API.
 
-8. In a new tab, open the AWS lambda services page. You can find it in the massive services list under the Compute heading. Once it's open create a new lambda function using the "Blank function" blueprint.
+8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. This is laying the ground work for something we'll do later.
 
-9. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
+9. In a new tab, open the AWS dynamodb services page. You can find it in the massive services list under the Database heading. We're going to create a new DynamoDB database to store the information so we don't have to keep processing it. Call the database something like "PDPslacker". It's not that important but it's good policy. Call the primary key "date" and make it a number using the dropdown. ![](imgs/2017-01-08-15-59-00.png) Finally, set the read and write capacity units to 1 as this database will not be used heavily at all.
+
+10. After a couple of weeks your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
+
+11. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. So go to the services menu once again and choose IAM under "Security, Identity & Compliance".
+
+12. From the Roles option on the left create a new Role called PDPslackerRole. The role type will be AWS Lambda and you'll need to Attach the Poilcy named "AmazonDynamoDBFullAccess" to ensure we can write to our database. We should now be ready to create our Lambda functions.
+
+13. In a new tab, open the AWS lambda services page. You can find it in the massive services list under the Compute heading. Once it's open create a new lambda function using the "Blank function" blueprint.
+
+14. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
 If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. It takes the input, does the processing and can produce an output. All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. It's a cost effective way to run an event driven application such as our Slack integration.
 
-10. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-slackNotifier and follow that naming convention for the rest of this guide too, but ddo as you like. Copy the contents of the [/lambda/slackNotifier/PDPslacker_slackNotifier.js][lambda/slackNotifier/PDPslacker_slackNotifier.js] file into the text box for code and have a brief read through it to maybe understand what it does.
+15. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. Copy the contents of the [lambda/PDPslacker_awsEndpoint.js][lambda/PDPslacker_awsEndpoint.js] file into the text box for code and have a brief read through it. All this piece does is collect the data sent by the website and add it to the database. 
 
-11. 
+16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
+
+17. 
 
 
 

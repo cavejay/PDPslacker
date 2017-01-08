@@ -16,14 +16,14 @@ function getMonday( date ) {
 }
 
 function sendToSlack(data, week) {
-    var bDiamond = ':small_blue_diamond: '
+    var bDiamond = ':small_blue_diamond: ';
     slackData = {
         "text": "What's on for today, *Monday* Nov 11",
         "attachments": [{
             "title": "Tasks",
             "text": ""
         }]
-    }
+    };
 
     var d = new Date();
     d.sp = d.toUTCString().split(' '); // ["Fri,", "11", "Nov", "2016", "11:36:54", "GMT"]
@@ -41,8 +41,8 @@ function sendToSlack(data, week) {
     // console.log(data[day]);
 
     // assemble the task list
-    var tasks = ''
-    for (item in data[day]) {
+    var tasks = '';
+    for (var item in data[day]) {
         tasks = tasks+'\n'+ bDiamond + data[day][item];
     }
     slackData.attachments[0].text = tasks;
@@ -65,7 +65,7 @@ exports.handler = function(event, context) {
 
     monday = getMonday(new Date());
     mondayGMT = monday.getTime() + monday.getTimezoneOffset();
-    console.log("first monday "+mondayGMT)
+    console.log("first monday "+mondayGMT);
 
     var tableName = "PDPslacker";
     dynamodb.getItem({
@@ -99,4 +99,4 @@ exports.handler = function(event, context) {
             console.log('Dynamo Success: ' + JSON.stringify(data));
             sendToSlack(data);
         });
-}
+};
