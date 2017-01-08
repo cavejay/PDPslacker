@@ -89,9 +89,6 @@ Once it's all setup you should end up with an empty screen that looks something 
 7. Create a new POST method on the root of the API using the actions drop down menu. 
 Once that's done we're going to create a lambda function that links to this API.
 
-8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
-This is laying the ground work for something we'll do later.
-
 9. In a new tab, open the AWS dynamodb services page.
 You can find it in the massive services list under the Database heading. 
 We're going to create a new DynamoDB database to store the information so we don't have to keep processing it. 
@@ -138,12 +135,30 @@ Using the lambda integration type select the correct region from the drop down a
 Once you start typing a drop down selection should provide autocompletion options. 
 Save this page and it should update to show something that looks more like this: ![](imgs/2017-01-08-17-16-36.png)
 
+19. The final step to publishing this part of the API is to Deploy it. 
+Use the Actions drop down menu to select "Deploy API". 
+You'll need to make a stage to deploy it too, it can be called what ever you like but test or beta would work well in this case.
+Add descriptions as you wish and then deploy it! :D
+
+20. Stages allow us to have different versions of the API live at the same time. 
+We might use the prod stage for normal use but continue development on the beta stage. 
+We're only going to use a single stage for this project and now that you've deployed the API you should be on the stage UI with an invoke URL that we can use to test the API we just made.
+It should look like this: ![](2017-01-08-17-30-37.png)
+
+19. You should now be able to POST specifically formatted data to the root of your API and have it appear in your database.
+Use a program that will allow you to send a specific POST request to our URL. 
+The command line tool curl can do this but I prefer the [Chrome application Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?utm_source=chrome-ntp-icon) for it's ease of use. 
 
 
+
+
+
+8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
+This is laying the ground work for something we'll do later.
 
 ## Debugging (because all useful software has bugs)
 
-
+1. Point and laugh at your computer. Even if forced it might make you feel better.
 
 
 
