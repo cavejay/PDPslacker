@@ -12,7 +12,8 @@ Information is stored in an AWS dynamodb instance and fetched each day by a lamb
 
 Currently this repo only supports a manual setup, and that's outlined in the installations section of this readme. 
 
-**NOTE** While everything in this guide should fall under AWS's free tier you _may_ be charged a small amount. But that's okay because if you're reading this you're probably Dynatrace now! _insert gif of dollar notes falling here_
+**NOTE** While everything in this guide should fall under AWS's free tier you _may_ be charged a small amount. 
+But that's okay because if you're reading this you're probably Dynatrace now! _insert gif of dollar notes falling here_
 
 ## Future Features
 
@@ -62,38 +63,70 @@ The following is what my GitHub pages settings look like.
 
 1. Clone this repo to your computer using `git clone https://cavejay.github.com/PDPslacker` (if you forked this repo clone that instead and you're going to be making changes to the web site portion)
 
-2. Go to `https://<youslackteam>.slack.com/apps/build/custom-integration` and create an incoming webhook for your slack team. You should end up with a page that looks like this: ![](imgs/2017-01-03-10-15-52.png) From here you will have to select the channel that you want the bot to post to and click the "Add incoming Webhooks Integration" button. The page will then open out with information about incoming webhooks and all configuration options. You should read all of this so you have an idea of what's going on.
+2. Go to `https://<youslackteam>.slack.com/apps/build/custom-integration` and create an incoming webhook for your slack team. 
+You should end up with a page that looks like this: ![](imgs/2017-01-03-10-15-52.png) 
+From here you will have to select the channel that you want the bot to post to and click the "Add incoming Webhooks Integration" button. 
+The page will then open out with information about incoming webhooks and all configuration options. 
+You should read all of this so you have an idea of what's going on.
 
-3. You'll need to copy the webhook URL as that's what we'll be using later. Name the integation PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo. You've now set up the slack end of the integration. 
+3. You'll need to copy the webhook URL as that's what we'll be using later. 
+Name the integation PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo.
+You've now set up the slack end of the integration. 
 
-4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. Head to [https://aws.amazon.com/](https://aws.amazon.com/) and sign in to your AWS account.
+4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. 
+Head to [https://aws.amazon.com/](https://aws.amazon.com/) and sign in to your AWS account.
 
-5. Once logged in you'll need to head to the API Gateway service through the services menu. While Lambda is what we're using to do all the thinking, in order to create an API of sorts we're using API Gateway as an intermediary. The Services menu is kinda confusing, so here's a picture of where to find it. ![](imgs/2017-01-03-12-29-38.png)
-API Gateway descretises an API into HTTP methods like GET, PUT and POST. When someone uploads a valid document to the website part of our application it will post the extracted data to an endpoint of our API where we'll capture it and pass it to the appropriate lambda function.
+5. Once logged in you'll need to head to the API Gateway service through the services menu. 
+While Lambda is what we're using to do all the thinking, in order to create an API of sorts we're using API Gateway as an intermediary. 
+The Services menu is kinda confusing, so here's a picture of where to find it. ![](imgs/2017-01-03-12-29-38.png)
+API Gateway descretises an API into HTTP methods like GET, PUT and POST. 
+When someone uploads a valid document to the website part of our application it will post the extracted data to an endpoint of our API where we'll capture it and pass it to the appropriate lambda function.
 
-6. Create a new API, naming it something sensible like "PDPslacker" and give it a description if you want. Once it's all setup you should end up with an empty screen that looks something like this:
+6. Create a new API, naming it something sensible like "PDPslacker" and give it a description if you want. 
+Once it's all setup you should end up with an empty screen that looks something like this:
 ![](imgs/2017-01-03-12-41-47.png)
 
-7. Create a new POST method on the root of the API using the actions drop down menu. Once that's done we're going to create a lambda function that links to this API.
+7. Create a new POST method on the root of the API using the actions drop down menu. 
+Once that's done we're going to create a lambda function that links to this API.
 
-8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. This is laying the ground work for something we'll do later.
+8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
+This is laying the ground work for something we'll do later.
 
-9. In a new tab, open the AWS dynamodb services page. You can find it in the massive services list under the Database heading. We're going to create a new DynamoDB database to store the information so we don't have to keep processing it. Call the database something like "PDPslacker". It's not that important but it's good policy. Call the primary key "date" and make it a number using the dropdown. ![](imgs/2017-01-08-15-59-00.png) Finally, set the read and write capacity units to 1 as this database will not be used heavily at all.
+9. In a new tab, open the AWS dynamodb services page.
+You can find it in the massive services list under the Database heading. 
+We're going to create a new DynamoDB database to store the information so we don't have to keep processing it. 
+Call the database something like "PDPslacker". It's not that important but it's good policy.
+Call the primary key "date" and make it a number using the dropdown. ![](imgs/2017-01-08-15-59-00.png) 
+Finally, set the read and write capacity units to 1 as this database will not be used heavily at all.
 
 10. After a couple of weeks your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
 
-11. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. So go to the services menu once again and choose IAM under "Security, Identity & Compliance".
+11. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. 
+So go to the services menu once again and choose IAM under "Security, Identity & Compliance".
 
-12. From the Roles option on the left create a new Role called PDPslackerRole. The role type will be AWS Lambda and you'll need to Attach the Poilcy named "AmazonDynamoDBFullAccess" to ensure we can write to our database. We should now be ready to create our Lambda functions.
+12. From the Roles option on the left create a new Role called PDPslackerRole.
+The role type will be AWS Lambda and you'll need to Attach the Poilcy named "AmazonDynamoDBFullAccess" to ensure we can write to our database. 
+We should now be ready to create our Lambda functions.
 
-13. In a new tab, open the AWS lambda services page. You can find it in the massive services list under the Compute heading. Once it's open create a new lambda function using the "Blank function" blueprint.
+13. In a new tab, open the AWS lambda services page. 
+You can find it in the massive services list under the Compute heading. 
+Once it's open create a new lambda function using the "Blank function" blueprint.
 
-14. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
-If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. It takes the input, does the processing and can produce an output. All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. It's a cost effective way to run an event driven application such as our Slack integration.
+14. On the next page you will need to configure the triggers for your lambda function. 
+In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. 
+Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
+If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. 
+It takes the input, does the processing and can produce an output. 
+All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. 
+It's a cost effective way to run an event driven application such as our Slack integration.
 
-15. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it. All this piece does is collect the data sent by the website and add it to the database. 
+15. Now it's time to name and write the lambda actual function. 
+I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. 
+Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it. 
+All this piece does is collect the data sent by the website and add it to the database. 
 
-16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
+16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. 
+You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
 
 17. 
 
