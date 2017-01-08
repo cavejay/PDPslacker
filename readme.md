@@ -6,7 +6,7 @@ Converts the PDP weekly schedule document into an aesthetically pleasing daily s
 
 It looks like this: ![](imgs/2017-01-03-18-01-23.png)
 
-It semi-automates (with the goal of automating) the process of informing PDP members of their daily tasks by interfacing with a slack channel. 
+It semi-automates (with the goal of automating) the process of informing PDP members of their daily tasks by interfacing with a slack channel.
 By taking a user provided word document that meets a particular formatting, parsing that into html using mammoth and then pulling out relevant information.
 Information is stored in an AWS dynamodb instance and fetched each day by a lambda function that places a nicely formatted snippet of the current day's tasks in a slack channel. 
 
@@ -16,15 +16,19 @@ Currently this repo only supports a manual setup, and that's outlined in the ins
 
 ## Future Features
 
-- Make this a single step installation (if at all possible) using the serverless framework. Anybody is free to submit pull requests to this end, and it would be awesome if you could. All current progress towards this end has been made in the `sls` branch of this repo and mainly comprises of a `serverless.yaml` file
+- Make this a single step installation (if at all possible) using the serverless framework. 
+Anybody is free to submit pull requests to this end, and it would be awesome if you could. 
+All current progress towards this end has been made in the `sls` branch of this repo and mainly comprises of a `serverless.yaml` file
 - Web page gives user feedback when the parsing and upload succeeds or fails. There is only console output at the moment.
-- Automatic fetching of new documents from a sharepoint folder. This would remove human interaction from the system and make it fully automated! This is the end goal. 
+- Automatic fetching of new documents from a sharepoint folder. 
+This would remove human interaction from the system and make it fully automated! This is the end goal. 
 
 ## Repo Structure Explanation
 
 There are 2 folders: `/web` and `/lambda`. 
 
-Everything in `/web` is for a website created by the [`/index.html`](./index.html) file. It's barebones and a pull request could be used to make it better, so feel free to focus there. 
+Everything in `/web` is for a website created by the [`/index.html`](./index.html) file. 
+It's barebones and a pull request could be used to make it better, so feel free to focus there. 
 
 Everything in `/lambda` is for use by AWS's lambda system and you'll find the walk through on how to use these files later on in this readme.
 
@@ -40,9 +44,16 @@ To complete this project's install there are a few things that you'll need to ha
 
 This application uses AWS's lambda offering with nodejs code, so if you're not already famaliar with these technologies then this is the perfect time to learn about them! :D
 
-Decide how you want to host the web part of this repo. The easiest method and the method I set this repo up to use is github pages. If you didn't already know, github can host parts of your repo as a website, allowing you to host all of your documentation or examples and the like with minimal effort. Alternatively, you can host this repo's web portion using any other website hosting method you know such as on your own webserver or a simple free tier AWS instance etc. You just need to have this repo hosted somewhere so that people can visit [`/index.html`](./index.html). As an example, this repo is currently hosting using github pages at http://cavejay.github.io/PDPslacker.
+Decide how you want to host the web part of this repo. The easiest method and the method I set this repo up to use is github pages. 
+If you didn't already know, github can host parts of your repo as a website, allowing you to host all of your documentation or examples and the like with minimal effort. 
+Alternatively, you can host this repo's web portion using any other website hosting method you know such as on your own webserver or a simple free tier AWS instance etc. 
+You just need to have this repo hosted somewhere so that people can visit [`/index.html`](./index.html). 
+As an example, this repo is currently hosting using github pages at http://cavejay.github.io/PDPslacker.
 
-If you've decided to use github pages as your hosting system then you'll want to fork this repo. Make sure you've signed into github and then click the fork button in the top right region of the repo's home page (where you're probably reading this guide). Navigate to your fork of the repo and open up it's settings. On the first page of settings you should be able to scroll down and see the "GitHub-pages" options. Make sure the source is the Master branch and that you're forcing https, apply the settings and check that the site is visitable and your hosting is all setup. 
+If you've decided to use github pages as your hosting system then you'll want to fork this repo. Make sure you've signed into github and then click the fork button in the top right region of the repo's home page (where you're probably reading this guide). 
+Navigate to your fork of the repo and open up it's settings. 
+On the first page of settings you should be able to scroll down and see the "GitHub-pages" options. 
+Make sure the source is the Master branch and that you're forcing https, apply the settings and check that the site is visitable and your hosting is all setup. 
 
 The following is what my GitHub pages settings look like.
 ![](imgs/2017-01-03-09-48-36.png)
@@ -80,7 +91,7 @@ API Gateway descretises an API into HTTP methods like GET, PUT and POST. When so
 14. On the next page you will need to configure the triggers for your lambda function. In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
 If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. It takes the input, does the processing and can produce an output. All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. It's a cost effective way to run an event driven application such as our Slack integration.
 
-15. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. Copy the contents of the [lambda/PDPslacker_awsEndpoint.js][lambda/PDPslacker_awsEndpoint.js] file into the text box for code and have a brief read through it. All this piece does is collect the data sent by the website and add it to the database. 
+15. Now it's time to name and write the lambda actual function. I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it. All this piece does is collect the data sent by the website and add it to the database. 
 
 16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
 
