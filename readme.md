@@ -70,7 +70,7 @@ The page will then open out with information about incoming webhooks and all con
 You should read all of this so you have an idea of what's going on.
 
 3. You'll need to copy the webhook URL as that's what we'll be using later. 
-Name the integation PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo.
+Name the integration PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo.
 You've now set up the slack end of the integration. 
 
 4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. 
@@ -127,11 +127,21 @@ All this piece does is collect the data sent by the website and add it to the da
 
 16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. 
 You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
+Once done click next and then create the function.
 
-17. 
+17. Take note of what region your lambda instances are running in, as we need to select them based on this. 
+You can tell by checking the first part of the URL for your lambda service page. Once you know which region they're running in then go back to your API Gateway setup page.
+![](imgs/2017-01-08-17-01-56.png) 
+
+18. Once at your API settings select the root POST method. 
+Using the lambda integration type select the correct region from the drop down and write the name of the lambda function we just made. 
+Once you start typing a drop down selection should provide autocompletion options. 
+Save this page and it should update to show something that looks more like this: ![](imgs/2017-01-08-17-16-36.png)
 
 
 
+
+## Debugging (because all useful software has bugs)
 
 
 
