@@ -70,7 +70,7 @@ The page will then open out with information about incoming webhooks and all con
 You should read all of this so you have an idea of what's going on.
 
 3. You'll need to copy the webhook URL as that's what we'll be using later. 
-Name the integration PDPslacker (or something else if you like), provide a short description on what the integration does and use the dynatrace [icon](./dynatraceIcon.png) that's included in this repo.
+Name the integration PDPslacker (or something else if you like), provide a short description on what the integration does and use the [dynatrace icon](./dynatraceIcon.png) that's included in this repo.
 You've now set up the slack end of the integration. 
 
 4. We're using a combination of AWS's lambda and API Gateway services for the 'backend' of our integration. 
@@ -143,7 +143,7 @@ Add descriptions as you wish and then deploy it! :D
 20. Stages allow us to have different versions of the API live at the same time. 
 We might use the prod stage for normal use but continue development on the beta stage. 
 We're only going to use a single stage for this project and now that you've deployed the API you should be on the stage UI with an invoke URL that we can use to test the API we just made.
-It should look like this: ![](2017-01-08-17-30-37.png)
+It should look like this: ![](imgs/2017-01-08-17-30-37.png)
 
 19. You should now be able to POST specifically formatted data to the root of your API and have it appear in your database.
 Use a program that will allow you to send a specific POST request to our URL. 
