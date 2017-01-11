@@ -149,7 +149,44 @@ It should look like this: ![](imgs/2017-01-08-17-30-37.png)
 Use a program that will allow you to send a specific POST request to our URL. 
 The command line tool curl can do this but I prefer the [Chrome application Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?utm_source=chrome-ntp-icon) for it's ease of use. 
 
-
+20. Copy the following code and 
+```json
+{ "nextWeek":
+{ "Monday": [ "Instructor Led – Data Center RUM Triage & Best Practices" ],
+    "Tuesday":
+    [ "Instructor Led – Data Center RUM Triage & Best Practices ",
+        "Reminder – Order International Laptops" ],
+    "Wednesday": [ "Instructor Led – Data Center RUM Triage & Best Practices" ],
+    "Thursday":
+    [ "Instructor Led – Data Center RUM Triage & Best Practices",
+        "Meeting – A visit with Mike Hicks – Senior Product Manager APM Product Management " ],
+    "Friday":
+    [ "Handout – Who Moved My Cheese",
+        "Instructor Led – Data Center RUM Triage & Best Practices" ] },
+"tip": "Tip of the Hat – People were great and we had fun lol",
+"Monday":
+[ "Infinite Skills – Introduction to Docker",
+    "Instructor Led – Introduction to the Mainframe",
+    "APMaaS Lab Checkoff" ],
+"Tuesday":
+[ "Presentation – Great Demo – Round One",
+    "Instructor Led – Business Soft Skills – Time Management",
+    "Instructor Led – Guardian Alumni Series – Merck",
+    "Instructor Led – Relocation and Virtual Office Assistance",
+    "Instructor Led – DevOps 5 Minute Tech Talks" ],
+"Wednesday":
+[ "Instructor Led – Ruxit Tech Talk – Mike Beemer",
+    "Instructor Led – DevOps Placemat – Brett Hofer",
+    "Infinite Skills – Deploying Docker Containers to AWS",
+    "Infinite Skills – Learning Puppet" ],
+"Thursday":
+[ "Instructor Led – Guardian Best Practices – Adoption",
+    "Lab – Docker Lab with Application Monitoring",
+    "Infinite Skills – Learning Puppet" ],
+"Friday":
+[ "Lab – Docker Lab with Ruxit",
+    "Infinite Skills – Learning Regular Expressions" ] }
+```
 
 
 
