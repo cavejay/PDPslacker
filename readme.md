@@ -149,7 +149,7 @@ It should look like this: ![](imgs/2017-01-08-17-30-37.png)
 Use a program that will allow you to send a specific POST request to our URL. 
 The command line tool curl can do this but I prefer the [Chrome application Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?utm_source=chrome-ntp-icon) for it's ease of use. 
 
-20. Using your choice of tool you should send a POST request with the `Content-Type` request header set to `application/json` and the body containing the following code snippet.
+20. Using your choice of tool you should send a POST request with the `Content-Type` request header set to `application/json` and the following snippet as the request body to the API URL that you saved earlier.
 ```json
 {  
     "nextWeek": {
@@ -210,9 +210,8 @@ The command line tool curl can do this but I prefer the [Chrome application Post
     ]
 }
 ```
-Send that 
 
-21. 
+21. heyo this should be a higher number
 
 
 8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
