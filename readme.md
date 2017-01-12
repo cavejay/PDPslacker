@@ -96,7 +96,7 @@ Call the database something like "PDPslacker". It's not that important but it's 
 Call the primary key "date" and make it a number using the dropdown. ![](imgs/2017-01-08-15-59-00.png) 
 Finally, set the read and write capacity units to 1 as this database will not be used heavily at all.
 
-10. After a couple of weeks your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
+10. After a couple of **weeks** your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
 
 11. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. 
 So go to the services menu once again and choose IAM under "Security, Identity & Compliance".
@@ -119,7 +119,8 @@ It's a cost effective way to run an event driven application such as our Slack i
 
 15. Now it's time to name and write the lambda actual function. 
 I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. 
-Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it. 
+Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it.
+You will need to make ensure that the `tableName` variable on line 11 correctly refers to the table you made earlier!
 All this piece does is collect the data sent by the website and add it to the database. 
 
 16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. 
@@ -211,7 +212,21 @@ The command line tool curl can do this but I prefer the [Chrome application Post
     }
     ```
 
-21. heyo this should be a higher number
+21. If we've done everything correctly to this point, then you should recieve the response `SUCCESS` and there should be an entry in your DynamoDB table.
+If there isn't have a glance over the guide again and check each point. 
+Remember that you've needed to make some small changes to the code that we've used, make sure that you actually made and saved them.
+    It should be noted that running this request multiple times will never result in more than the single DB entry. This is due to our use of the date variable as an identifier. There will only ever been 1 entry for each day and each of those entries can be updated by running the request again with appropriate updated data.
+
+22. Now that we have the ability to recieve data we're going to alter the website part of this project to send it. As I mentioned near the beginning of this document the way you host this isn't important, just make the following changes to the files. 
+
+23. Edit the [main.js](web/js/main.js) file so that the url on line 47 is the same as the one we were just testing. 
+Push the change to your site, either by commiting the change to your fork of the repository or by updating the file of your site. 
+You should now be able to click and drag a PDP Team Meeting Document into the website and see it appear in your DynamoDB table! 
+The same no-dupilcate rule applies here as well. 
+To debug check the console of the website for any network or parsing errors. 
+You should see the `SUCCESS` response you saw earlier here too.
+
+24.  
 
 
 8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
