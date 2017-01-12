@@ -150,66 +150,66 @@ Use a program that will allow you to send a specific POST request to our URL.
 The command line tool curl can do this but I prefer the [Chrome application Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?utm_source=chrome-ntp-icon) for it's ease of use. 
 
 20. Using your choice of tool you should send a POST request with the `Content-Type` request header set to `application/json` and the following snippet as the request body to the API URL that you saved earlier.
-```json
-{  
-    "nextWeek": {
+    ```json
+    {  
+        "nextWeek": {
+            "Monday": [
+                "Codecademy – Learn Java",
+                "Instructor Led – Dynatrace Community Portal",
+                "Instructor Led – License Management Overview",
+                "Instructor Led – Creating a Helpdesk Ticket",
+                "Instructor Led – Presentation Training – Point of View Whiteboard"
+            ],
+            "Tuesday": [
+                "Codecademy – PHP",
+                "Instructor Led – Anatomy of an IT Organization"
+            ],
+            "Wednesday": [
+                "Meet Shawn Washburn – VP Enterprise Services",
+                "Safari – Learning ASP .Net MVC",
+                "Instructor Led – Virtualization Overview"
+            ],
+            "Thursday": [
+                "Instructor Led – Guardian Best Practices – The Makeup of a Guardian",
+                "Codecademy & Safari – Finish eLearning",
+                "Test – Anatomy of an IT Organization",
+                "Self-Study – POV Whiteboard"
+            ],
+            "Friday": [
+                "Presentation – Point of View Whiteboard",
+                "Dynatrace University – Application Monitoring Pre-Requisite eLearning"
+            ]
+        },
+        "tip": "Tip of the Hat – Nomination taken weekly from teammates that go above and beyond the call of duty.",
+        "date": 1483833600000,
         "Monday": [
-            "Codecademy – Learn Java",
-            "Instructor Led – Dynatrace Community Portal",
-            "Instructor Led – License Management Overview",
-            "Instructor Led – Creating a Helpdesk Ticket",
-            "Instructor Led – Presentation Training – Point of View Whiteboard"
+            "Arrival, Tour, and First Day Paperwork",
+            "Introduction to PDP with Cale",
+            "Move into workspace, receive laptop, tools of the trade",
+            "One-page writing assignment – How will you apply 212° in your life? – Due Friday January 13th",
+            "DiSC Consulting pre-class work – Due today"
         ],
         "Tuesday": [
-            "Codecademy – PHP",
-            "Instructor Led – Anatomy of an IT Organization"
+            "Dynatrace University – APM Associate Overview – 30 assets",
+            "Handout APM Associate Blueprint",
+            "Dynatrace University – The Dynatrace Point of View"
         ],
         "Wednesday": [
-            "Meet Shawn Washburn – VP Enterprise Services",
-            "Safari – Learning ASP .Net MVC",
-            "Instructor Led – Virtualization Overview"
+            "Dynatrace University – APM Associate Certification Self-Study",
+            "Dynatrace University – Dynatrace Overview – Video "
         ],
         "Thursday": [
-            "Instructor Led – Guardian Best Practices – The Makeup of a Guardian",
-            "Codecademy & Safari – Finish eLearning",
-            "Test – Anatomy of an IT Organization",
-            "Self-Study – POV Whiteboard"
+            "Dynatrace University – APM Associate Certification Self-Study",
+            "DXS Enablement Services e-learning",
+            "SharePoint – Tales from the Trenches",
+            "Test – APM Associate Certification Exam"
         ],
         "Friday": [
-            "Presentation – Point of View Whiteboard",
-            "Dynatrace University – Application Monitoring Pre-Requisite eLearning"
+            "Instructor Led – DiSC Consulting w/ Sue Jayroe",
+            "SharePoint – Tales from the Trenches"
         ]
-    },
-    "tip": "Tip of the Hat – Nomination taken weekly from teammates that go above and beyond the call of duty.",
-    "date": 1483833600000,
-    "Monday": [
-        "Arrival, Tour, and First Day Paperwork",
-        "Introduction to PDP with Cale",
-        "Move into workspace, receive laptop, tools of the trade",
-        "One-page writing assignment – How will you apply 212° in your life? – Due Friday January 13th",
-        "DiSC Consulting pre-class work – Due today"
-    ],
-    "Tuesday": [
-        "Dynatrace University – APM Associate Overview – 30 assets",
-        "Handout APM Associate Blueprint",
-        "Dynatrace University – The Dynatrace Point of View"
-    ],
-    "Wednesday": [
-        "Dynatrace University – APM Associate Certification Self-Study",
-        "Dynatrace University – Dynatrace Overview – Video "
-    ],
-    "Thursday": [
-        "Dynatrace University – APM Associate Certification Self-Study",
-        "DXS Enablement Services e-learning",
-        "SharePoint – Tales from the Trenches",
-        "Test – APM Associate Certification Exam"
-    ],
-    "Friday": [
-        "Instructor Led – DiSC Consulting w/ Sue Jayroe",
-        "SharePoint – Tales from the Trenches"
-    ]
-}
-```
+    }
+    ```
 
 21. heyo this should be a higher number
 
