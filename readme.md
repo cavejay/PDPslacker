@@ -226,10 +226,18 @@ The same no-dupilcate rule applies here as well.
 To debug check the console of the website for any network or parsing errors. 
 You should see the `SUCCESS` response you saw earlier here too.
 
-24.  
+24. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. Start by creating a new lambda function thats based on the blank blueprint.
+
+25. This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
+Make a new rule with the name `PDPslackerScheduleRule`, give it a description if you like and use `cron(0 13 ? * MON-FRI *)` as the schedule expression.
+
+26. 
 
 
-8. Create a new Resource named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
+#### Bonus Task!
+This bonus task is for if you want a slash command in slack to tell you the days tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
+
+1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
 This is laying the ground work for something we'll do later.
 
 ## Debugging (because all useful software has bugs)
