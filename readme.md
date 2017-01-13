@@ -226,16 +226,26 @@ The same no-dupilcate rule applies here as well.
 To debug check the console of the website for any network or parsing errors. 
 You should see the `SUCCESS` response you saw earlier here too.
 
-24. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. Start by creating a new lambda function thats based on the blank blueprint.
+24. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. 
+Start by using your terminal or command prompt to access the [lambda/slackNotifier](lambda/slackNotifier) directory of this repo on your local computer.
 
-25. This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
+25. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. npm will go throught the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
+
+26. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 
+
+
+
+
+
+25. Create a new lambda function thats based on the blank blueprint.
+This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
 Make a new rule with the name `PDPslackerScheduleRule`, give it a description if you like and use `cron(0 13 ? * MON-FRI *)` as the schedule expression.
 
 26. 
 
 
 #### Bonus Task!
-This bonus task is for if you want a slash command in slack to tell you the days tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
+This bonus task is for if you want a slash command in slack to tell you the day's tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
 
 1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
 This is laying the ground work for something we'll do later.
