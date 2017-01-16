@@ -74,7 +74,7 @@ function sendToSlack(data, week) {
  * Sends an Error message to slack to let people know what something's gone wrong in a more visible manner.
  * This isn't implemented yet but exists for when it will be
  */
-function sendErrorToSlack (errorType) {
+function sendErrorToSlack (errorType, fn) {
     var errorTypes = {nodata: "Could not find any data for today", dbError: "The database encountered a problem"};
     var error = errorType.custom ? errorType.text : errorTypes[errorType];
     // if (errorType.custom) {
@@ -84,20 +84,18 @@ function sendErrorToSlack (errorType) {
     // }
     
     var slackData = {
-        "text": ":exclamation: *An Error occured when attempting to fetch today's tasks* :exclamation:",
-        "attachments": [{
-            "text": "> *Error:* " + error
-        }]
+        "text": ":exclamation: *An Error occured when attempting to fetch today's tasks* :exclamation:\n> *Error:* "+ error
     };
 
-    // console.log('sending error to slack');
+    console.log('sending error to slack');
     request.post(
         slackURL,
         { json: slackData },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                // console.log(body)
+                console.log(body)
             }
+            fn();
         }
     );
 }
@@ -119,8 +117,9 @@ exports.handler = function(event, context) {
             "Key": {date: mondayGMT}
         }, function(err, data) {
             if (err) {
-                // sendErrorToSlack({custom: true, text: err});
-                context.fail('ERROR: Dynamo failed: ' + err);
+                sendErrorToSlack({custom: true, text: err}, () => {
+                    context.fail('ERROR: Dynamo failed: ' + err);
+                });
             } else if (JSON.stringify(data) === '{}') {
                 // If we didn't get anything check for the week before
                 console.log("We couldn't find this weeks document, looking for last week's");
@@ -133,19 +132,22 @@ exports.handler = function(event, context) {
                     "Key": {date: lastMondayGMT}
                 }, function (e, d) {
                     if (e) {
-                        // sendErrorToSlack({custom: true, text: err});
-                        context.fail('ERROR: Dynamo failed: ' + err);
+                        sendErrorToSlack({custom: true, text: err}, () => {
+                            context.fail('ERROR: Dynamo failed: ' + err);
+                        });
                     } else if (JSON.stringify(d) === '{}') {
                         console.log("Couldn't find any docs from 2 weeks ago");
-                        // sendErrorToSlack("nodata");
-                        // todo send an error to slack with instructions
-                        context.fail("Couldn't find any docs from 2 weeks ago");
+                        sendErrorToSlack("nodata", () => {
+                            context.fail("Couldn't find any docs from 2 weeks ago");
+                        });
+                    } else {
+                        sendToSlack(d, 2);
                     }
-                    sendToSlack(d, 2);
                 });
+            } else {
+                // Send request to slack
+                console.log('Dynamo Success: ' + JSON.stringify(data));
+                sendToSlack(data);
             }
-            // Send request to slack
-            console.log('Dynamo Success: ' + JSON.stringify(data));
-            sendToSlack(data);
         });
 };

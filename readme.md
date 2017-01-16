@@ -254,7 +254,6 @@ You'll know if it's successful because it will post to your slack team.
 This bonus task is for if you want a slash command in slack to tell you the day's tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
 
 1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
-This is laying the ground work for something we'll do later.
 
 ## Debugging (because all useful software has bugs)
 
