@@ -37,7 +37,7 @@ Everything in `/lambda` is for use by AWS's lambda system and you'll find the wa
 
 #### Preinstall
 
-To complete this project's install there are a few things that you'll need to have installed on your local computer. 
+To complete this project's install there are a few things that you'll need to have or installed on your local computer. 
 - git
 - nodejs (and npm)
 - AWS account
@@ -51,10 +51,12 @@ Alternatively, you can host this repo's web portion using any other website host
 You just need to have this repo hosted somewhere so that people can visit [`/index.html`](./index.html). 
 As an example, this repo is currently hosting using github pages at http://cavejay.github.io/PDPslacker.
 
-If you've decided to use github pages as your hosting system then you'll want to fork this repo. Make sure you've signed into github and then click the fork button in the top right region of the repo's home page (where you're probably reading this guide). 
-Navigate to your fork of the repo and open up it's settings. 
-On the first page of settings you should be able to scroll down and see the "GitHub-pages" options. 
-Make sure the source is the Master branch and that you're forcing https, apply the settings and check that the site is visitable and your hosting is all setup. 
+If you've decided to use github pages as your hosting system then you'll want to fork this repo.
+Make sure you've signed into github and then click the fork button in the top right region of the repo's home page (where you're probably reading this guide).
+Navigate to your fork of the repo and open up it's settings.
+On the first page of settings you should be able to scroll down and see the "GitHub-pages" options.
+Make sure the source is the Master branch and that you're forcing https, apply the settings and check that the site is visitable and your hosting is all setup.
+There is a chance that it will take a while to 'publish,' continue on with the guide and it should be done by the end.
 
 The following is what my GitHub pages settings look like.
 ![](imgs/2017-01-03-09-48-36.png)
