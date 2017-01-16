@@ -89,27 +89,27 @@ Once it's all setup you should end up with an empty screen that looks something 
 7. Create a new POST method on the root of the API using the actions drop down menu. 
 Once that's done we're going to create a lambda function that links to this API.
 
-9. In a new tab, open the AWS dynamodb services page.
+8. In a new tab, open the AWS dynamodb services page.
 You can find it in the massive services list under the Database heading. 
 We're going to create a new DynamoDB database to store the information so we don't have to keep processing it. 
 Call the database something like "PDPslacker". It's not that important but it's good policy.
-Call the primary key "date" and make it a number using the dropdown. ![](imgs/2017-01-08-15-59-00.png) 
+Call the primary key "date" and **make it a number** using the dropdown. ![](imgs/2017-01-08-15-59-00.png) 
 Finally, set the read and write capacity units to 1 as this database will not be used heavily at all.
 
-10. After a couple of **weeks** your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
+9. After a couple of **weeks** your DynamoDB should start to look a bit like this: ![](imgs/2017-01-08-16-05-35.png)
 
-11. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. 
+10. We need to make a role that will allow our lambda functions to access the DynamodDB that we just created. 
 So go to the services menu once again and choose IAM under "Security, Identity & Compliance".
 
-12. From the Roles option on the left create a new Role called PDPslackerRole.
+11. From the Roles option on the left create a new Role called PDPslackerRole.
 The role type will be AWS Lambda and you'll need to Attach the Poilcy named "AmazonDynamoDBFullAccess" to ensure we can write to our database. 
 We should now be ready to create our Lambda functions.
 
-13. In a new tab, open the AWS lambda services page. 
+12. In a new tab, open the AWS lambda services page. 
 You can find it in the massive services list under the Compute heading. 
 Once it's open create a new lambda function using the "Blank function" blueprint.
 
-14. On the next page you will need to configure the triggers for your lambda function. 
+13. On the next page you will need to configure the triggers for your lambda function. 
 In this case, our trigger will be the API Gateway that we started setting up just before, so select API Gateway and then our API from the corresponding dropdown. 
 Down worry too much about the deployment stage but make sure that you set the security to `open` so that we can access it straight away.
 If you haven't done any reading on what a lambda function is, it's a piece of code that is run when ever a trigger is fulfilled. 
@@ -117,40 +117,40 @@ It takes the input, does the processing and can produce an output.
 All of this is stateless and we only have to pay for the few milliseconds that the function is running and only when it's triggered. 
 It's a cost effective way to run an event driven application such as our Slack integration.
 
-15. Now it's time to name and write the lambda actual function. 
+14. Now it's time to name and write the lambda actual function. 
 I recommend that you name it PDPslacker-awsEndpoint and follow that naming convention for the rest of this guide too, but do as you like. 
 Copy the contents of the [lambda/PDPslacker_awsEndpoint.js](lambda/PDPslacker_awsEndpoint.js) file into the text box for code and have a brief read through it.
 You will need to make ensure that the `tableName` variable on line 11 correctly refers to the table you made earlier!
 All this piece does is collect the data sent by the website and add it to the database. 
 
-16. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. 
+15. Below where you copied the code in the configuration for "Lambda function handler and role" Make sure the handler is index.handler, the Role is "Choose an existing role" and then choose the role that we created just before from the drop down option for Existing Role. 
 You could also take this opportunity to tweak the RAM or timeout time assigned to this function but as it does so little it's kinda pointless.
 Once done click next and then create the function.
 
-17. Take note of what region your lambda instances are running in, as we need to select them based on this. 
+16. Take note of what region your lambda instances are running in, as we need to select them based on this. 
 You can tell by checking the first part of the URL for your lambda service page. Once you know which region they're running in then go back to your API Gateway setup page.
 ![](imgs/2017-01-08-17-01-56.png) 
 
-18. Once at your API settings select the root POST method. 
+17. Once at your API settings select the root POST method. 
 Using the lambda integration type select the correct region from the drop down and write the name of the lambda function we just made. 
 Once you start typing a drop down selection should provide autocompletion options. 
 Save this page and it should update to show something that looks more like this: ![](imgs/2017-01-08-17-16-36.png)
 
-19. The final step to publishing this part of the API is to Deploy it. 
+18. The final step to publishing this part of the API is to Deploy it. 
 Use the Actions drop down menu to select "Deploy API". 
 You'll need to make a stage to deploy it too, it can be called what ever you like but test or beta would work well in this case.
 Add descriptions as you wish and then deploy it! :D
 
-20. Stages allow us to have different versions of the API live at the same time. 
+19. Stages allow us to have different versions of the API live at the same time. 
 We might use the prod stage for normal use but continue development on the beta stage. 
 We're only going to use a single stage for this project and now that you've deployed the API you should be on the stage UI with an invoke URL that we can use to test the API we just made.
 It should look like this: ![](imgs/2017-01-08-17-30-37.png)
 
-19. You should now be able to POST specifically formatted data to the root of your API and have it appear in your database.
+20. You should now be able to POST specifically formatted data to the root of your API and have it appear in your database.
 Use a program that will allow you to send a specific POST request to our URL. 
 The command line tool curl can do this but I prefer the [Chrome application Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?utm_source=chrome-ntp-icon) for it's ease of use. 
 
-20. Using your choice of tool you should send a POST request with the `Content-Type` request header set to `application/json` and the following snippet as the request body to the API URL that you saved earlier.
+21. Using your choice of tool you should send a POST request with the `Content-Type` request header set to `application/json` and the following snippet as the request body to the API URL that you saved earlier.
     ```json
     {  
         "nextWeek": {
@@ -212,42 +212,42 @@ The command line tool curl can do this but I prefer the [Chrome application Post
     }
     ```
 
-21. If we've done everything correctly to this point, then you should recieve the response `SUCCESS` and there should be an entry in your DynamoDB table.
+22. If we've done everything correctly to this point, then you should recieve the response `SUCCESS` and there should be an entry in your DynamoDB table.
 If there isn't have a glance over the guide again and check each point. 
 Remember that you've needed to make some small changes to the code that we've used, make sure that you actually made and saved them.
     It should be noted that running this request multiple times will never result in more than the single DB entry. This is due to our use of the date variable as an identifier. There will only ever been 1 entry for each day and each of those entries can be updated by running the request again with appropriate updated data.
 
-22. Now that we have the ability to recieve data we're going to alter the website part of this project to send it. As I mentioned near the beginning of this document the way you host this isn't important, just make the following changes to the files. 
+23. Now that we have the ability to recieve data we're going to alter the website part of this project to send it. As I mentioned near the beginning of this document the way you host this isn't important, just make the following changes to the files. 
 
-23. Edit the [main.js](web/js/main.js) file so that the url on line 47 is the same as the one we were just testing. 
+24. Edit the [main.js](web/js/main.js) file so that the url on line 47 is the same as the one we were just testing. 
 Push the change to your site, either by commiting the change to your fork of the repository or by updating the file of your site. 
 You should now be able to click and drag a PDP Team Meeting Document into the website and see it appear in your DynamoDB table! 
 The same no-dupilcate rule applies here as well. 
 To debug check the console of the website for any network or parsing errors. 
 You should see the `SUCCESS` response you saw earlier here too.
 
-24. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. 
+25. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. 
 Start by using your terminal or command prompt to access the [lambda/slackNotifier](lambda/slackNotifier) directory of this repo on your local computer.
 
-25. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. npm will go throught the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
+26. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. npm will go throught the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
 
-26. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 so that they point to the correct URL and dynamoDB.
+27. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 so that they point to the correct URL and dynamoDB.
 
-27. Using which ever means you're comfortable with, put everything in the slackNotifier folder into a .zip archive so we can upload it as a lambda function. When finished the .zip archive should have 1 folder and 2 files inside: a `node_modules` folder, a `PDPslacker_slackNotifier.js` file and a `package.json` file.
+28. Using which ever means you're comfortable with, put everything in the slackNotifier folder into a .zip archive so we can upload it as a lambda function. When finished the .zip archive should have 1 folder and 2 files inside: a `node_modules` folder, a `PDPslacker_slackNotifier.js` file and a `package.json` file.
 
-28. Create a new lambda function thats based on the blank blueprint.
+29. Create a new lambda function thats based on the blank blueprint.
 This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
 Make a new rule with the name `PDPslackerScheduleRule`, give it a description if you like and use `cron(0 13 ? * MON-FRI *)` as the schedule expression.
 Don't enable the trigger yet.
 
-29. Name the function `PDPslacker_slackNotifier` give it a description if you like and make sure the run time is `Node.js 4.3`.
+30. Name the function `PDPslacker_slackNotifier` give it a description if you like and make sure the run time is `Node.js 4.3`.
 Where it says "Code entry type" you'll need to select `Upload a .ZIP file` and upload the .zip archive that we made in step 27.
 
-30. The Handler field should say `PDPslacker_slackNotifier.handler` and the Role should be the role you made earlier. 
+31. The Handler field should say `PDPslacker_slackNotifier.handler` and the Role should be the role you made earlier. 
 At this point you should probably also up the Timeout time to something closer to 10 seconds. 
 Your review screen should look like this: ![](imgs/2017-01-16-11-06-04.png)
 
-31: That's it! Upload this week's team document and you can either wait for 8am or test it using the bright blue "Test" button on the lambda function's page. 
+32. That's it! Upload this week's team document and you can either wait for 8am or test it using the bright blue "Test" button on the lambda function's page. 
 You'll know if it's successful because it will post to your slack team.
 
 #### Bonus Task!
