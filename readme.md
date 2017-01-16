@@ -137,7 +137,7 @@ Once you start typing a drop down selection should provide autocompletion option
 Save this page and it should update to show something that looks more like this: ![](imgs/2017-01-08-17-16-36.png)
 
 18. The final step to publishing this part of the API is to Deploy it. 
-Use the Actions drop down menu to select "Deploy API". 
+Use the Actions drop down menu to select "Deploy API".
 You'll need to make a stage to deploy it too, it can be called what ever you like but test or beta would work well in this case.
 Add descriptions as you wish and then deploy it! :D
 
@@ -215,11 +215,14 @@ The command line tool curl can do this but I prefer the [Chrome application Post
 22. If we've done everything correctly to this point, then you should recieve the response `SUCCESS` and there should be an entry in your DynamoDB table.
 If there isn't have a glance over the guide again and check each point. 
 Remember that you've needed to make some small changes to the code that we've used, make sure that you actually made and saved them.
-    It should be noted that running this request multiple times will never result in more than the single DB entry. This is due to our use of the date variable as an identifier. There will only ever been 1 entry for each day and each of those entries can be updated by running the request again with appropriate updated data.
+    It should be noted that running this request multiple times will never result in more than the single DB entry. 
+    This is due to our use of the date variable as an identifier. 
+    There will only ever been 1 entry for each day and each of those entries can be updated by running the request again with appropriate updated data.
 
-23. Now that we have the ability to recieve data we're going to alter the website part of this project to send it. As I mentioned near the beginning of this document the way you host this isn't important, just make the following changes to the files. 
+23. Now that we have the ability to recieve data we're going to alter the website part of this project to send it. 
+As I mentioned near the beginning of this document the way you host this isn't important, just make the following changes to the files. 
 
-24. Edit the [main.js](web/js/main.js) file so that the url on line 47 is the same as the one we were just testing. 
+24. Update the [main.js](web/js/main.js) file so that the URL on line 47 is now the URL of your API Gateway deployment. 
 Push the change to your site, either by commiting the change to your fork of the repository or by updating the file of your site. 
 You should now be able to click and drag a PDP Team Meeting Document into the website and see it appear in your DynamoDB table! 
 The same no-dupilcate rule applies here as well. 
@@ -229,11 +232,14 @@ You should see the `SUCCESS` response you saw earlier here too.
 25. The final section of this guide relates to the Lambda function that brings everything together, by running on a schedule, pulling from the database and publishing to your slack team. 
 Start by using your terminal or command prompt to access the [lambda/slackNotifier](lambda/slackNotifier) directory of this repo on your local computer.
 
-26. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. npm will go throught the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
+26. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. 
+To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. 
+npm will go through the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
 
 27. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 so that they point to the correct URL and dynamoDB.
 
-28. Using which ever means you're comfortable with, put everything in the slackNotifier folder into a .zip archive so we can upload it as a lambda function. When finished the .zip archive should have 1 folder and 2 files inside: a `node_modules` folder, a `PDPslacker_slackNotifier.js` file and a `package.json` file.
+28. Using which ever means you're comfortable with, put everything in the slackNotifier folder into a .zip archive so we can upload it as a lambda function. 
+When finished the .zip archive should have 1 folder and 2 files inside: a `node_modules` folder, a `PDPslacker_slackNotifier.js` file and a `package.json` file. 
 
 29. Create a new lambda function thats based on the blank blueprint.
 This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
@@ -251,15 +257,15 @@ Your review screen should look like this: ![](imgs/2017-01-16-11-06-04.png)
 You'll know if it's successful because it will post to your slack team.
 
 #### Bonus Task!
-This bonus task is for if you want a slash command in slack to tell you the day's tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
+This bonus task is for if you want a slash command in slack to tell you the day's tasks. 
+It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
 
 1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
 
 ## Debugging (because all useful software has bugs)
 
-1. Point and laugh at your computer. Even if forced it might make you feel better.
-
-
-
-
+- Point and laugh at your computer. Even if forced it might make you feel better.
+- Make sure you've replaced all the URLs and such that are mentioned throughout the guide.
+- If you get a 404 error on your github.io page then try adding `/index.html` to the end.
+- Make an issue and describe your problem, at the very least I'll reply.
 
