@@ -138,7 +138,11 @@ Using the lambda integration type select the correct region from the drop down a
 Once you start typing a drop down selection should provide autocompletion options. 
 Save this page and it should update to show something that looks more like this: ![](imgs/2017-01-08-17-16-36.png)
 
-18. The final step to publishing this part of the API is to Deploy it. 
+18. Select your POST method and then from the actions menu choose "Enable CORS."
+Enabling CORS will allow your website to talk to the AWS backend.
+All the default options through this menu are okay so just click through until CORS has been activated.
+
+18. The final step to publishing this part of the API is to Deploy it.
 Use the Actions drop down menu to select "Deploy API".
 You'll need to make a stage to deploy it too, it can be called what ever you like but test or beta would work well in this case.
 Add descriptions as you wish and then deploy it! :D
@@ -262,7 +266,7 @@ You'll know if it's successful because it will post to your slack team.
 This bonus task is for if you want a slash command in slack to tell you the day's tasks. 
 It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
 
-1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
+1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too.
 
 ## Debugging (because all useful software has bugs)
 
