@@ -60,7 +60,7 @@ function sendToSlack(data, week) {
 
     // console.log('sending to slack');
     request.post(
-        'https://hooks.slack.com/services/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', // slackURL
+        slackURL,
         { json: slackData },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -92,7 +92,7 @@ function sendErrorToSlack (errorType) {
 
     // console.log('sending error to slack');
     request.post(
-        'https://hooks.slack.com/services/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', // slackURL
+        slackURL,
         { json: slackData },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -114,9 +114,8 @@ exports.handler = function(event, context) {
     mondayGMT = monday.getTime() + monday.getTimezoneOffset();
     console.log("first monday "+mondayGMT);
 
-    var tableName = "PDPslacker";
     dynamodb.getItem({
-            "TableName": tableName, // dynamoTableName
+            "TableName": dynamoTableName,
             "Key": {date: mondayGMT}
         }, function(err, data) {
             if (err) {
@@ -130,17 +129,17 @@ exports.handler = function(event, context) {
                 console.log("date to check for: "+lastMondayGMT);
 
                 dynamodb.getItem({
-                    "TableName": tableName, // dynamoTableName
+                    "TableName": dynamoTableName,
                     "Key": {date: lastMondayGMT}
                 }, function (e, d) {
                     if (e) {
                         // sendErrorToSlack({custom: true, text: err});
                         context.fail('ERROR: Dynamo failed: ' + err);
                     } else if (JSON.stringify(d) === '{}') {
-                        console.log('we took the path');
+                        console.log("Couldn't find any docs from 2 weeks ago");
                         // sendErrorToSlack("nodata");
-                        context.fail("Couldn't find any docs from 2 weeks ago");
                         // todo send an error to slack with instructions
+                        context.fail("Couldn't find any docs from 2 weeks ago");
                     }
                     sendToSlack(d, 2);
                 });

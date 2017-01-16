@@ -231,18 +231,24 @@ Start by using your terminal or command prompt to access the [lambda/slackNotifi
 
 25. We need to package this lambda function as a .zip file as it uses a 3rd party module called "request" to interact with the slackhook URL. To download the module you'll need to run `npm install .` in the [`slackNotifier`](lambda/slackNotifier) directory. npm will go throught the process of bringing it locally and when it's returned you to the prompt you should have a new folder called 'node_modules'.
 
-26. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 
+26. Open up the [PDPslacker_slackNotifier.js](lambda/slackNotifier/PDPslacker_slackNotifier.js) file and edit the 2 variables on lines 7 & 8 so that they point to the correct URL and dynamoDB.
 
+27. Using which ever means you're comfortable with, put everything in the slackNotifier folder into a .zip archive so we can upload it as a lambda function. When finished the .zip archive should have 1 folder and 2 files inside: a `node_modules` folder, a `PDPslacker_slackNotifier.js` file and a `package.json` file.
 
-
-
-
-25. Create a new lambda function thats based on the blank blueprint.
+28. Create a new lambda function thats based on the blank blueprint.
 This particular Lambda function will be triggered on a schedule and so needs to use the `CloudWatch Events - Schedule` trigger. 
 Make a new rule with the name `PDPslackerScheduleRule`, give it a description if you like and use `cron(0 13 ? * MON-FRI *)` as the schedule expression.
+Don't enable the trigger yet.
 
-26. 
+29. Name the function `PDPslacker_slackNotifier` give it a description if you like and make sure the run time is `Node.js 4.3`.
+Where it says "Code entry type" you'll need to select `Upload a .ZIP file` and upload the .zip archive that we made in step 27.
 
+30. The Handler field should say `PDPslacker_slackNotifier.handler` and the Role should be the role you made earlier. 
+At this point you should probably also up the Timeout time to something closer to 10 seconds. 
+Your review screen should look like this: ![](imgs/2017-01-16-11-06-04.png)
+
+31: That's it! Upload this week's team document and you can either wait for 8am or test it using the bright blue "Test" button on the lambda function's page. 
+You'll know if it's successful because it will post to your slack team.
 
 #### Bonus Task!
 This bonus task is for if you want a slash command in slack to tell you the day's tasks. It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
