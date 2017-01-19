@@ -4,6 +4,8 @@ var dynamodb = new doc.DynamoDB();
 
 days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
+slackToken = "thisiswhereyouputyourtoken";
+
 function getMonday( date ) {
     var day = date.getDay() || 7;  
     if( day !== 1 ) 
@@ -43,8 +45,6 @@ function sendToSlack(context, data, week) {
     slackData.attachments[0].text = tasks;
     
     context.succeed(slackData);
-
-    
 }
 
 function dbCall (context) {
@@ -103,8 +103,8 @@ function procSlackRequest (event) {
 exports.handler = function(event, context) {
     //Echo back the text the user typed in
     var input = procSlackRequest(event);
-    if (input.token !== "IITYpVGgQIoin30crRmx8hJQ") { // need to make this more secure and pull out to a config file
-        context.succeed('Invalid Token');
+    if (input.token !== slackToken) { // need to make this more secure and pull out to a config file
+        context.succeed('Invalid Token'); // this should probably be a fail, not a succeed lol
     }
     
     if (input.text !== undefined && input.text !== '') {

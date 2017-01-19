@@ -263,15 +263,45 @@ Your review screen should look like this: ![](imgs/2017-01-16-11-06-04.png)
 You'll know if it's successful because it will post to your slack team.
 
 #### Bonus Task!
-This bonus task is for if you want a slash command in slack to tell you the day's tasks. 
+This bonus task is for if you want a slash command in slack to tell you the day's tasks. When done typing `/tasks` will privatly show you the same information that appears in #general at 8am each day.    
 It appears invisibly and where ever you are currently which means it can come in handy for when #general has been super busy that day and you don't feel like scrolling.
 
+1. To interact with slack using a slash command we need to first create an interface for it in slack. Go to the [Build a Custom Integration page](https://cavejay.slack.com/apps/build/custom-integration) and choose "Slash commands".
+
+2. Enter the command you want to create.
+I liked `/tasks` but you could put anything here really. 
+The best commands are short and easy to remember.
+
+3. On the next page you should fill out all the normal information, uploading the Dynatrace logo to make sure the command's results are nice to look at etc.
+There are only 2 things you need to serious note of here: The "Token" and "URL" fields. 
+We'll be using the Token now and coming back to fill in the URL field.
+
+4. Create a new lambda function from a blank blueprint with an API gateway trigger. 
+You'll need to choose your API Gateway, your deployment stage if you have more than one (you won't if you've been following this to the letter) and make sure to set security to 'open'.
+
+5. Copy the contents of the [PDPslacker_invokeTaskList.js](lambda/invokeTaskList/PDPslacker_invokeTaskList.js) file into the code window of the lambda function.
+Replace the placeholder string on line 7 of this block of code with the Token from your slack slash command.
+If you read through the code you'll see that we use it as a way to ensure we're only returning data to Slack, rather than to any old request to the function.
+
+6. Do like you did with your previous Lambda function, making sure that it is assigned to the correct role, has an appropriate timeout time and then finish up with the configuration.
+
+7. 
+
 1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too.
+
+2. Create a new lambda function 
 
 ## Debugging (because all useful software has bugs)
 
 - Point and laugh at your computer. Even if forced it might make you feel better.
+
+- If the message isn't appearing in your slack channel at the right time then you'll need to play around with the cron schedule that we set up in step 29. 
+Look up cron and how to use it if you've little experience in this area. 
+13 _should_ get Michigan at 8am but you might have to change it depending on the locality of your lambda functions if they're on the east coast then you can probably just set it to 8.
+
 - Make sure you've replaced all the URLs and such that are mentioned throughout the guide.
+
 - If you get a 404 error on your github.io page then try adding `/index.html` to the end.
+
 - Make an issue and describe your problem, at the very least I'll reply.
 
