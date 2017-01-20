@@ -15,6 +15,11 @@ Currently this repo only supports a manual setup, and that's outlined in the ins
 **NOTE** While everything in this guide should fall under AWS's free tier you _may_ be charged a small amount. 
 But that's okay because if you're reading this you're probably Dynatrace now! _insert gif of dollar notes falling here_
 
+### Dynatrace monitors all the AWS things! 
+
+[Check it out here](https://www.dynatrace.com/technologies/cloud-and-microservices/aws-monitoring/) 'cause we (Dynatrace) now integrate with AWS to give people feed back on what's going on in their apps.
+The cool bit about this though is that you can now monitor everything you're setting up in this guide!
+
 ## Future Features
 
 - Make this a single step installation (if at all possible) using the serverless framework. 
@@ -285,11 +290,26 @@ If you read through the code you'll see that we use it as a way to ensure we're 
 
 6. Do like you did with your previous Lambda function, making sure that it is assigned to the correct role, has an appropriate timeout time and then finish up with the configuration.
 
-7. 
+7. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too. 
+Make sure to enable CORS again from the actions dropdown so that slack can actually talk to the POST method. (without CORS the api won't accept requests that aren't a certain type)
 
-1. Create a new Resource in your API Gateway named 'trigger' (it should have a resource path of /trigger) and then create another POST method under that too.
+8. Due to the way slack sends us data, we also need to do a little bit of preprocessing of their data with our API. 
+Open the POST method that you just created and your window should look fairly similar to this: ![](imgs/2017-01-20-14-49-07.png)
 
-2. Create a new lambda function 
+9. Click 'Integration Request' (the link that's underlined in the picture above) and you'll be taken to a page that shows how you can alter the incoming request before it hits your lambda function.
+
+10. Open the "Body mapping templates" area, make sure the recommended option is selected for the passthrough options and add a new mapping template. 
+The content type needs to be `application/x-www-form-urlencoded` and once you've confirmed that a new text box will appear down the bottom. 
+Put `{"body": $input.json("$")}` in there and click the save button below that.
+When you've done those 3 things you should have something that will look a little like this: ![](imgs/2017-01-20-14-57-41.png)
+
+11. Deploy the altered API using the Actions drop down again and all our changes should be live. 
+Copy the "invoke URL" from your newly deployed AWS API as you need that to tell slack where to post it's information. 
+
+12. On your slack slash command integration page, paste the URL into the URL field of the integration **and add /trigger to the end of it**.
+If you forget to add the "/trigger" bit then it won't work.
+
+13. That's it! you should now be able to use `/tasks` or whichever your command word was in slack!
 
 ## Debugging (because all useful software has bugs)
 
